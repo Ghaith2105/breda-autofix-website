@@ -14,7 +14,7 @@
   •
   <a href="#deployment">Deployment</a>
   •
-  <a href="https://[your-username].github.io/breda-autofix-website/" target="__blank">Live Demo</a>
+  <a href="https://ghaith2105.github.io/breda-autofix-website/" target="__blank">Live Demo</a>
 </p>
 
 ---
@@ -71,7 +71,7 @@ To run the project locally, you need **Node.js** installed on your machine.
 #### Clone the repository
 
 ```sh
-git clone https://github.com/[your-username]/breda-autofix-website.git
+git clone https://github.com/ghaith2105/breda-autofix-website.git
 cd breda-autofix-website
 ```
 
@@ -127,7 +127,7 @@ This project is configured for automatic deployment to GitHub Pages using GitHub
 2. Under "Source", select **GitHub Actions**
 3. Push to the `main` branch to trigger deployment
 
-Your site will be live at: `https://[your-username].github.io/breda-autofix-website/`
+Your site will be live at: `https://ghaith2105.github.io/breda-autofix-website/`
 
 ### Deploy to Vercel (Alternative)
 
@@ -195,7 +195,7 @@ This project is open-source and available for portfolio and educational purposes
 
 For questions or collaboration opportunities, feel free to reach out!
 
-**Live Demo:** [https://[your-username].github.io/breda-autofix-website/](https://[your-username].github.io/breda-autofix-website/)
+**Live Demo:** [https://ghaith2105.github.io/breda-autofix-website/](https://ghaith2105.github.io/breda-autofix-website/)
 
 ---
 
