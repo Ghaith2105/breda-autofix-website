@@ -21,8 +21,6 @@
 
 ## Features
 
-<img align="right" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" style="width:500px">
-
 #### Service Management
 - **APK Keuring** - Official Dutch vehicle inspection
 - **Small & Large Service** - Comprehensive maintenance packages
