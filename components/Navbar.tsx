@@ -8,24 +8,38 @@ const Navbar: React.FC = () => {
   const { t, language, setLanguage } = useLanguage();
 
   useEffect(() => {
-    // Use IntersectionObserver on the sentinel in App.tsx
-    // This is much more reliable than 'scroll' events on mobile
     const sentinel = document.getElementById('top-sentinel');
-    
     if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // If the sentinel is NOT intersecting, it means we've scrolled down
+        // Immediate state update
         setScrolled(!entry.isIntersecting);
       },
-      { threshold: [0, 1] }
+      { 
+        threshold: [0, 1],
+        rootMargin: '0px 0px 0px 0px' 
+      }
     );
 
     observer.observe(sentinel);
     
-    return () => observer.disconnect();
-  }, []);
+    // Fallback for mobile browser edge cases
+    const handleScrollFallback = () => {
+      if (window.scrollY > 5) {
+        if (!scrolled) setScrolled(true);
+      } else {
+        if (scrolled) setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollFallback, { passive: true });
+    
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScrollFallback);
+    };
+  }, [scrolled]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -55,7 +69,7 @@ const Navbar: React.FC = () => {
   return (
     <nav 
       style={{ willChange: 'background-color, padding, box-shadow' }}
-      className={`fixed w-full top-0 left-0 z-50 transform-gpu transition-all duration-300 ease-in-out ${
+      className={`fixed w-full top-0 left-0 z-[60] transform-gpu transition-all duration-300 ease-in-out animate-[fadeIn_0.3s_ease-out] ${
         scrolled 
           ? 'bg-white shadow-lg py-2 md:py-3' 
           : 'bg-transparent py-4 md:py-6'
@@ -84,7 +98,6 @@ const Navbar: React.FC = () => {
               </a>
             ))}
 
-            {/* Language Toggle */}
             <button 
               className={`relative flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 focus:outline-none ${scrolled ? 'bg-slate-100 hover:bg-slate-200' : 'bg-black/20 hover:bg-black/30'}`} 
               onClick={() => setLanguage(language === 'nl' ? 'en' : 'nl')}
@@ -113,7 +126,6 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="md:hidden flex items-center gap-3">
-            {/* Mobile Language Toggle */}
             <button 
               className={`relative flex items-center p-0.5 rounded-full cursor-pointer transition-colors duration-300 focus:outline-none ${scrolled ? 'bg-slate-100' : 'bg-black/20'}`} 
               onClick={() => setLanguage(language === 'nl' ? 'en' : 'nl')}
@@ -141,7 +153,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-2xl absolute w-full top-full left-0 border-t border-slate-100 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="px-4 pt-2 pb-6 space-y-1">

@@ -30,21 +30,16 @@ const Hero: React.FC = () => {
             alt="Professional car mechanic workshop at Breda AutoFix featuring modern equipment and vehicle lifts" 
             className="w-full h-full object-cover object-center animate-[fadeIn_1.5s_ease-out]"
           />
-          {/* Heavy dark overlay to ensure text readability */}
           <div className="absolute inset-0 bg-slate-900/75 mix-blend-multiply"></div>
-          {/* Gradient overlay for smooth transition to next section */}
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-transparent to-slate-900"></div>
       </div>
       
-      {/* Radial gradient overlay for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800/20 via-slate-900/50 to-slate-900 pointer-events-none"></div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-16 md:pt-0">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-24 md:pt-0">
         
-        {/* Glow behind text - Increased opacity */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[300px] bg-brand-500/20 blur-[100px] rounded-full pointer-events-none -z-10"></div>
 
-        {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-700 bg-slate-800/50 backdrop-blur-md mb-6 shadow-lg animate-[fadeIn_0.5s_ease-out_forwards]">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
@@ -53,7 +48,7 @@ const Hero: React.FC = () => {
             <span className="text-xs sm:text-sm font-medium text-slate-300 tracking-wide">Premium Garage Services</span>
         </div>
 
-        <h1 className="text-5xl sm:text-7xl md:text-9xl font-bold tracking-tight mb-6 leading-tight animate-[slideUpFade_0.5s_ease-out_0.2s_both]">
+        <h1 className="text-4xl sm:text-7xl md:text-9xl font-bold tracking-tight mb-4 leading-[1.1] animate-[slideUpFade_0.5s_ease-out_0.2s_both]">
           <span className="inline-block text-transparent bg-clip-text bg-[linear-gradient(110deg,#94a3b8,45%,#ffffff,55%,#94a3b8)] bg-[length:250%_100%] animate-shimmer pb-2">
             {t.hero.title1}
           </span>
@@ -63,7 +58,7 @@ const Hero: React.FC = () => {
           </span>
         </h1>
         
-        <p className="mt-0 max-w-2xl text-lg sm:text-2xl text-slate-300 mb-10 leading-relaxed font-light animate-[slideUpFade_0.5s_ease-out_0.4s_both] drop-shadow-md px-4 sm:px-0">
+        <p className="mt-2 max-w-2xl text-base sm:text-2xl text-slate-300 mb-10 leading-relaxed font-light animate-[slideUpFade_0.5s_ease-out_0.4s_both] drop-shadow-md px-4 sm:px-0">
           {t.hero.subtitle}
         </p>
         
