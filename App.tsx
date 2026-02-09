@@ -23,6 +23,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (isLoading) {
       document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0); // Ensure we start at the top
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -36,6 +37,13 @@ const App: React.FC = () => {
       {/* Custom Cursor (Desktop Only) */}
       {!isLoading && <CustomCursor />}
 
+      {/* 
+        Scroll Trigger Sentinel 
+        This is a invisible 1px div at the very top. 
+        Navbar will observe this to know when to turn white.
+      */}
+      <div id="top-sentinel" className="absolute top-0 left-0 w-px h-px pointer-events-none z-[-1]" />
+
       <div className={`min-h-screen bg-white font-sans text-slate-900 selection:bg-brand-500 selection:text-white transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
         <Navbar />
         <Hero />
@@ -45,11 +53,6 @@ const App: React.FC = () => {
         <Contact />
         <Footer />
         
-        {/* 
-          AI Assistant is enabled. 
-          Note: Requires process.env.API_KEY to function fully. 
-          Gracefully degrades if key is missing.
-        */}
         <AiAssistant />
       </div>
     </LanguageProvider>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, Car } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -7,24 +7,25 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const { t, language, setLanguage } = useLanguage();
 
-  const handleScroll = useCallback(() => {
-    // Ultra-low threshold for immediate mobile response
-    const offset = window.scrollY;
-    if (offset > 5) {
-      if (!scrolled) setScrolled(true);
-    } else {
-      if (scrolled) setScrolled(false);
-    }
-  }, [scrolled]);
-
   useEffect(() => {
-    // Initial check
-    handleScroll();
+    // Use IntersectionObserver on the sentinel in App.tsx
+    // This is much more reliable than 'scroll' events on mobile
+    const sentinel = document.getElementById('top-sentinel');
+    
+    if (!sentinel) return;
 
-    // Standard listener is more responsive for simple state toggles on modern mobile browsers
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If the sentinel is NOT intersecting, it means we've scrolled down
+        setScrolled(!entry.isIntersecting);
+      },
+      { threshold: [0, 1] }
+    );
+
+    observer.observe(sentinel);
+    
+    return () => observer.disconnect();
+  }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -140,7 +141,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile menu - Always white bg for visibility */}
+      {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-2xl absolute w-full top-full left-0 border-t border-slate-100 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="px-4 pt-2 pb-6 space-y-1">

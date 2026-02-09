@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
       {/* Radial gradient overlay for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800/20 via-slate-900/50 to-slate-900 pointer-events-none"></div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-16 md:pt-0">
         
         {/* Glow behind text - Increased opacity */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[300px] bg-brand-500/20 blur-[100px] rounded-full pointer-events-none -z-10"></div>
@@ -50,10 +50,10 @@ const Hero: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
             </span>
-            <span className="text-sm font-medium text-slate-300 tracking-wide">Premium Garage Services</span>
+            <span className="text-xs sm:text-sm font-medium text-slate-300 tracking-wide">Premium Garage Services</span>
         </div>
 
-        <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold tracking-tight mb-6 leading-tight animate-[slideUpFade_0.5s_ease-out_0.2s_both]">
+        <h1 className="text-5xl sm:text-7xl md:text-9xl font-bold tracking-tight mb-6 leading-tight animate-[slideUpFade_0.5s_ease-out_0.2s_both]">
           <span className="inline-block text-transparent bg-clip-text bg-[linear-gradient(110deg,#94a3b8,45%,#ffffff,55%,#94a3b8)] bg-[length:250%_100%] animate-shimmer pb-2">
             {t.hero.title1}
           </span>
@@ -63,11 +63,11 @@ const Hero: React.FC = () => {
           </span>
         </h1>
         
-        <p className="mt-0 max-w-2xl text-xl sm:text-2xl text-slate-300 mb-10 leading-relaxed font-light animate-[slideUpFade_0.5s_ease-out_0.4s_both] drop-shadow-md">
+        <p className="mt-0 max-w-2xl text-lg sm:text-2xl text-slate-300 mb-10 leading-relaxed font-light animate-[slideUpFade_0.5s_ease-out_0.4s_both] drop-shadow-md px-4 sm:px-0">
           {t.hero.subtitle}
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-[slideUpFade_0.5s_ease-out_0.6s_both]">
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-[slideUpFade_0.5s_ease-out_0.6s_both] px-6 sm:px-0">
           <a
             href="#booking"
             onClick={(e) => handleScroll(e, '#booking')}
