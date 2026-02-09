@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Car } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -7,14 +7,33 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const { t, language, setLanguage } = useLanguage();
 
+  // Memoized scroll handler for performance
+  const handleScroll = useCallback(() => {
+    const isScrolled = window.scrollY > 10;
+    if (isScrolled !== scrolled) {
+      setScrolled(isScrolled);
+    }
+  }, [scrolled]);
+
   useEffect(() => {
-    const handleScroll = () => {
-      // Increased threshold slightly for better stability on mobile
-      setScrolled(window.scrollY > 40);
+    // Check initial position on mount
+    handleScroll();
+    
+    // Use requestAnimationFrame for smoother scroll handling on high-refresh mobile screens
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [handleScroll]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -24,7 +43,7 @@ const Navbar: React.FC = () => {
     const element = document.getElementById(targetId);
     
     if (element) {
-      const headerOffset = 80; // Adjust for sticky header
+      const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
   
@@ -43,10 +62,10 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed w-full top-0 left-0 z-50 transform-gpu transition-[background-color,padding,box-shadow] duration-300 ease-in-out ${
+      className={`fixed w-full top-0 left-0 z-50 transform-gpu transition-[background-color,padding,box-shadow,height] duration-300 ease-in-out ${
         scrolled 
-          ? 'bg-white/90 backdrop-blur-lg shadow-md py-2' 
-          : 'bg-transparent py-5'
+          ? 'bg-white shadow-md py-1 md:py-2' 
+          : 'bg-transparent py-4 md:py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
