@@ -10,25 +10,25 @@ const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
   const [showWrench, setShowWrench] = useState(false);
 
   useEffect(() => {
-    // Timeline:
-    // 0ms: Car drives in (enter phase)
-    // 1000ms: Car arrives, start repair
-    // 2500ms: Repair done, car drives out (exit phase)
-    // 3300ms: Animation complete
+    // Sped up timeline for better UX
+    // 0ms: Car drives in
+    // 800ms: Repair starts
+    // 1800ms: Repair ends, car drives out
+    // 2500ms: Screen disappears
 
     const timer1 = setTimeout(() => {
         setPhase('repair');
         setShowWrench(true);
-    }, 1100);
+    }, 800);
 
     const timer2 = setTimeout(() => {
         setShowWrench(false);
         setPhase('exit');
-    }, 2600);
+    }, 1800);
 
     const timer3 = setTimeout(() => {
         onComplete();
-    }, 3400);
+    }, 2500);
 
     return () => {
         clearTimeout(timer1);
@@ -48,7 +48,6 @@ const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
         `}>
           <Car className="w-32 h-32 md:w-48 md:h-48" strokeWidth={1.5} />
           
-          {/* Repair Wrench - only visible during repair phase */}
           <div className={`
             absolute -top-4 -right-4 text-accent-500 z-20
             transition-opacity duration-300
@@ -58,18 +57,16 @@ const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
           </div>
         </div>
         
-        {/* Shadow/Road Effect */}
         <div className={`
             mt-4 h-2 bg-slate-800 rounded-full blur-sm mx-auto transition-all duration-500
-            ${phase === 'enter' ? 'w-full animate-[fadeIn_1s_ease-out]' : ''}
+            ${phase === 'enter' ? 'w-full animate-[fadeIn_0.5s_ease-out]' : ''}
             ${phase === 'repair' ? 'w-32 md:w-48 bg-brand-900/50' : ''}
             ${phase === 'exit' ? 'w-full opacity-0 translate-x-full duration-700' : ''}
         `}></div>
       </div>
 
-      {/* Brand Name appearing below */}
       <div className={`
-        mt-12 text-center transition-all duration-700 delay-500
+        mt-12 text-center transition-all duration-700
         ${phase === 'enter' ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}
         ${phase === 'exit' ? 'opacity-0 scale-90' : ''}
       `}>

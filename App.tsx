@@ -31,30 +31,23 @@ const App: React.FC = () => {
 
   return (
     <LanguageProvider>
-      {/* 1. Loading Screen (Highest Layer) */}
+      {/* Navbar is rendered immediately so it can prepare its state before the loading screen even clears */}
+      <Navbar />
+
+      {/* Loading Screen Overlay (z-index 100) */}
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       
-      {/* 2. Cursor (Desktop Only) */}
+      {/* Custom Cursor (Desktop Only) */}
       {!isLoading && <CustomCursor />}
 
-      {/* 3. Scroll Sentinel (Always Present at Top) */}
-      <div id="top-sentinel" className="absolute top-0 left-0 w-px h-px pointer-events-none z-[-1]" />
-
-      {/* 
-        4. Navbar - Decoupled from the main content fade.
-        It appears immediately when isLoading is false.
-      */}
-      {!isLoading && <Navbar />}
-
-      {/* 5. Main Content Wrapper - Handles its own slow fade-in */}
-      <div className={`min-h-screen bg-white font-sans text-slate-900 transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Main Content Wrapper - Faster fade-in (500ms instead of 1000ms) */}
+      <div className={`min-h-screen bg-white font-sans text-slate-900 transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
         <Hero />
         <Services onBookService={handleBookService} />
         <Testimonials />
         <BookingSystem preSelectedService={preSelectedService} />
         <Contact />
         <Footer />
-        
         <AiAssistant />
       </div>
     </LanguageProvider>

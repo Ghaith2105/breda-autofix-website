@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
       
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800/20 via-slate-900/50 to-slate-900 pointer-events-none"></div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-24 md:pt-0">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-32 md:pt-0">
         
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[300px] bg-brand-500/20 blur-[100px] rounded-full pointer-events-none -z-10"></div>
 

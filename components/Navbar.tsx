@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Car } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -7,39 +7,22 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const { t, language, setLanguage } = useLanguage();
 
-  useEffect(() => {
-    const sentinel = document.getElementById('top-sentinel');
-    if (!sentinel) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Immediate state update
-        setScrolled(!entry.isIntersecting);
-      },
-      { 
-        threshold: [0, 1],
-        rootMargin: '0px 0px 0px 0px' 
-      }
-    );
-
-    observer.observe(sentinel);
-    
-    // Fallback for mobile browser edge cases
-    const handleScrollFallback = () => {
-      if (window.scrollY > 5) {
-        if (!scrolled) setScrolled(true);
-      } else {
-        if (scrolled) setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScrollFallback, { passive: true });
-    
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', handleScrollFallback);
-    };
+  const handleScroll = useCallback(() => {
+    // Ultra-low threshold: even 1px scroll triggers the state
+    const isScrolled = window.scrollY > 1;
+    if (isScrolled !== scrolled) {
+      setScrolled(isScrolled);
+    }
   }, [scrolled]);
+
+  useEffect(() => {
+    // Check initial position
+    handleScroll();
+
+    // Use a raw listener for maximum responsiveness on mobile
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -68,8 +51,8 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      style={{ willChange: 'background-color, padding, box-shadow' }}
-      className={`fixed w-full top-0 left-0 z-[60] transform-gpu transition-all duration-300 ease-in-out animate-[fadeIn_0.3s_ease-out] ${
+      style={{ willChange: 'background-color, padding' }}
+      className={`fixed w-full top-0 left-0 z-[60] transform-gpu transition-all duration-200 ease-out ${
         scrolled 
           ? 'bg-white shadow-lg py-2 md:py-3' 
           : 'bg-transparent py-4 md:py-6'
