@@ -7,32 +7,23 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const { t, language, setLanguage } = useLanguage();
 
-  // Memoized scroll handler for performance
   const handleScroll = useCallback(() => {
-    const isScrolled = window.scrollY > 10;
-    if (isScrolled !== scrolled) {
-      setScrolled(isScrolled);
+    // Ultra-low threshold for immediate mobile response
+    const offset = window.scrollY;
+    if (offset > 5) {
+      if (!scrolled) setScrolled(true);
+    } else {
+      if (scrolled) setScrolled(false);
     }
   }, [scrolled]);
 
   useEffect(() => {
-    // Check initial position on mount
+    // Initial check
     handleScroll();
-    
-    // Use requestAnimationFrame for smoother scroll handling on high-refresh mobile screens
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    // Standard listener is more responsive for simple state toggles on modern mobile browsers
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -43,7 +34,7 @@ const Navbar: React.FC = () => {
     const element = document.getElementById(targetId);
     
     if (element) {
-      const headerOffset = 80;
+      const headerOffset = 70;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
   
@@ -62,14 +53,15 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed w-full top-0 left-0 z-50 transform-gpu transition-[background-color,padding,box-shadow,height] duration-300 ease-in-out ${
+      style={{ willChange: 'background-color, padding, box-shadow' }}
+      className={`fixed w-full top-0 left-0 z-50 transform-gpu transition-all duration-300 ease-in-out ${
         scrolled 
-          ? 'bg-white shadow-md py-1 md:py-2' 
+          ? 'bg-white shadow-lg py-2 md:py-3' 
           : 'bg-transparent py-4 md:py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-14 sm:h-16">
+        <div className="flex justify-between items-center h-14">
           <div className="flex-shrink-0 flex items-center gap-2">
             <Car className={`h-7 w-7 sm:h-8 sm:w-8 transition-colors duration-300 ${scrolled ? 'text-brand-600' : 'text-white'}`} />
             <span className={`font-bold text-lg sm:text-xl tracking-tight transition-colors duration-300 ${scrolled ? 'text-slate-900' : 'text-white'}`}>
@@ -91,7 +83,7 @@ const Navbar: React.FC = () => {
               </a>
             ))}
 
-            {/* Language Toggle - Desktop */}
+            {/* Language Toggle */}
             <button 
               className={`relative flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 focus:outline-none ${scrolled ? 'bg-slate-100 hover:bg-slate-200' : 'bg-black/20 hover:bg-black/30'}`} 
               onClick={() => setLanguage(language === 'nl' ? 'en' : 'nl')}
@@ -148,7 +140,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - Always white bg for visibility */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-2xl absolute w-full top-full left-0 border-t border-slate-100 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="px-4 pt-2 pb-6 space-y-1">
